@@ -1,0 +1,10 @@
+# 忽略虛擬環境資料夾
+env/
+venv/
+
+# 忽略 Python 快取檔
+__pycache__/
+*.pyc
+
+# 忽略 VSCode 設定資料夾
+.vscode/
