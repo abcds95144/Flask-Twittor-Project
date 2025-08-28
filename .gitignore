@@ -8,3 +8,5 @@ __pycache__/
 
 # 忽略 VSCode 設定資料夾
 .vscode/
+
+.env
