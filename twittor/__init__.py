@@ -12,5 +12,5 @@ def create_app():
 
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY') or 'fallback-secret-key'
     app.add_url_rule('/','index',index)
-    app.add_url_rule('/login','Login',login)
+    app.add_url_rule('/login','login',login, methods=['GET','POST'])
     return app

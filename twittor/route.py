@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, redirect, request
 from twittor.form import LoginForm
 
 def index(): 
@@ -16,6 +16,21 @@ def index():
     ]
     return render_template('index.html',name=name,posts=posts)
 
+#def login():
+ #   form = LoginForm(csrf_enabled=False)
+  #  if form.validate_on_submit
+   #     return redirect('/')
+    #return render_template('login.html', title="Sign In", form=form)
+
+
 def login():
-    form = LoginForm(csrf_enabled=False)
-    return render_template('login.html',title="Sign In",form=form)
+    form = LoginForm(request.form, csrf_enabled=False)
+
+    if request.method == 'POST':
+        print("POST 收到！")
+        print("username:", form.username.data)
+        print("password:", form.password.data)
+        print("remember_me:", form.remember_me.data)
+        return redirect('/')  # 強制跳轉首頁
+
+    return render_template('login.html', title="Sign In", form=form)
