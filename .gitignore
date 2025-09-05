@@ -10,3 +10,6 @@ __pycache__/
 .vscode/
 
 .env
+
+# 忽略 direnv 設定檔
+.envrc
