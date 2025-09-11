@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request
+from flask import render_template, redirect, request, url_for
 from twittor.form import LoginForm
 
 def index(): 
@@ -31,6 +31,6 @@ def login():
         print("username:", form.username.data)
         print("password:", form.password.data)
         print("remember_me:", form.remember_me.data)
-        return redirect('/')  # 強制跳轉首頁
+        return redirect(url_for('index'))  # 強制跳轉首頁
 
     return render_template('login.html', title="Sign In", form=form)
