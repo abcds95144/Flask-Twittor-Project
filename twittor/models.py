@@ -1,5 +1,5 @@
 from twittor import db
-
+from . import models
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
