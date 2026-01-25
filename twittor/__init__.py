@@ -19,11 +19,12 @@ def create_app():
     migrate.init_app(app, db)
     login_manager.init_app(app)
 
-    from twittor.route import index, login, logout
+    from twittor.route import index, login, logout, register
     app.add_url_rule('/index', 'index', index)
     app.add_url_rule('/', 'index', index)
     app.add_url_rule('/login', 'login', login, methods=['GET','POST'])
     app.add_url_rule('/logout', 'logout', logout)
+    app.add_url_rule('/register', 'register', register, methods=['GET','POST'])
 
     # ✅ import models 確保 Alembic 可以找到 table
     from . import models
