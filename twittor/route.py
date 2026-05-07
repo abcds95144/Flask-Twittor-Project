@@ -1,17 +1,14 @@
-from flask import render_template, redirect, request, url_for
+from flask import render_template, redirect, request, url_for, abort
 from flask_login import login_user, current_user, logout_user, login_required
-from twittor.form import LoginForm, RegisterForm
+from twittor.form import LoginForm, RegisterForm, EditProfileForm
 from twittor.models import User, Tweet
 from twittor import db
 
 @login_required
 
 def index(): 
-    posts = [
-        {'author': {'username':'root'}, 'body':"hi I'm test!"},
-        {'author': {'username':'test'}, 'body':"hi I'm test!"}
-    ]
-    return render_template('index.html', posts=posts)
+    tweets = current_user.own_and_followed_tweets()
+    return render_template('index.html', tweets=tweets)
 
 def login():
     if current_user.is_authenticated:
@@ -46,3 +43,32 @@ def register():
         db.session.commit()
         return redirect(url_for('login'))
     return render_template('register.html', title='Registration', form=form)
+
+@login_required
+def user(username):
+    u=User.query.filter_by(username=username).first()
+    if u is None:
+        abort(404)
+    tweets = u.tweets
+    if request.method == 'POST':
+        if request.form['request_button'] == 'Follow':
+            current_user.follow(u)
+            db.session.commit()
+        else:
+            current_user.unfollow(u)
+            db.session.commit()
+    return render_template('user.html', title='Profile', tweets=tweets, user=u)
+
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+@login_required
+def edit_profile():
+    form = EditProfileForm()
+    if request.method == 'GET':
+        form.about_me.data = current_user.about_me
+    if form.validate_on_submit():
+        current_user.about_me = form.about_me.data
+        db.session.commit()
+        return redirect(url_for('profile', username=current_user.username))
+    return render_template('edit_profile.html', form=form)
