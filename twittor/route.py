@@ -1,9 +1,9 @@
 from flask import render_template, redirect, request, url_for, abort, current_app, flash
 from flask_login import login_user, current_user, logout_user, login_required
-from twittor.form import LoginForm, RegisterForm, EditProfileForm, TweetForm, PasswdResetRequestForm
+from twittor.form import LoginForm, RegisterForm, EditProfileForm, TweetForm, PasswdResetRequestForm, PasswdResetForm
 from twittor.models import User, Tweet
 from twittor import db
-
+from twittor.email import send_email
 
 @login_required
 
@@ -113,7 +113,44 @@ def reset_password_request():
                 "password. Please make sure to check your spam and trash"
                 " if you can't find the email. "
             )
-        else:
-            raise
+            token = user.get_jwt()
+            url_password_reset = url_for(
+                'password_reset',
+                token=token,
+                _external=True
+            )
+            url_password_reset_request = url_for(
+                'reset_password_request',
+                _external=True
+            )
+            send_email(
+                subject=current_app.config['MAIL_SUBJECT_RESET_PASSWORD'],
+                recipients=[user.email],
+                text_body=render_template(
+                    'email/passwd_reset.txt',
+                    url_password_reset=url_password_reset,
+                    url_password_reset_request=url_password_reset_request
+                ),
+                html_body=render_template(
+                    'email/passwd_reset.html',
+                    url_password_reset=url_password_reset,
+                    url_password_reset_request=url_password_reset_request
+                )
+            )
         return redirect (url_for('login'))
     return render_template('password_reset_request.html', form=form)
+
+def password_reset(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    user = User.verify_jwt(token)
+    if not user:
+        return redirect(url_for('login'))
+    form = PasswdResetForm()
+    if form.validate_on_submit():
+        user.set_password(form.password.data)
+        db.session.commit()
+        return redirect(url_for('login'))
+    return render_template(
+        'password_reset.html', title='Password Reset', form=form
+    )

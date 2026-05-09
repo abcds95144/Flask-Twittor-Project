@@ -47,3 +47,8 @@ class PasswdResetRequestForm(FlaskForm):
             raise ValidationError(
                 'You do not an account for this email address'
             )
+
+class PasswdResetForm(FlaskForm):
+    password = PasswordField("Password", validators=[DataRequired()])
+    password2 = PasswordField("Password Repeat", validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Submit')
