@@ -13,3 +13,9 @@ __pycache__/
 
 # 忽略 direnv 設定檔
 .envrc
+
+# 忽略 SQLite 資料庫
+
+*.db
+
+twittor/twittor.db
