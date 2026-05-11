@@ -13,7 +13,7 @@
 
 動態: Vanilla JavaScript 
 
-開發工具: Git / Postman (API 測試)
+開發工具: Git / Postman 
 
 ## ✨ 核心功能與技術亮點
 使用者驗證系統：實作登入、註冊功能，並透過 werkzeug.security 進行密碼雜湊加密。
@@ -29,7 +29,7 @@ Phase 2 (計畫)：
 
 將前端重構成 Vue.js，達成前後端完全分離。
 
-導入 JWT (JSON Web Token) 驗證機制。
+導入JWT驗證機制。
 
 Phase 3：部署至 AWS EC2，並加入 Redis 作為熱門貼文的快取層。
 
