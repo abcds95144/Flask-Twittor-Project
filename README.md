@@ -25,7 +25,7 @@
 
 ## ⚙️ 如何在本地執行
 
-1. **複製儲存庫**: `git clone [https://github.com/abcds95144/test.git]`
+1. **複製儲存庫**: `git clone [https://github.com/abcds95144/Flask-Twittor-Project.git]`
 2. **建立虛擬環境**: `python -m venv venv`
 3. **啟動環境**: `venv\Scripts\activate` (Windows)
 4. **安裝依賴**: `pip install -r requirements.txt`
