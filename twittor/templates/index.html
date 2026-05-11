@@ -1,19 +1,25 @@
 {% extends "base.html" %} 
 
 {% block content %}
+    <style>
+        .like-button { color: gray; transition: color 0.2s; border: none; background: none; cursor: pointer; }
+        .like-button.is-liked { color: red !important; }
+    </style>
+
     <h1>Hello, <a href="/{{ current_user.username }}">{{ current_user.username }}</a></h1>
 
     <form action="" method="post">
-        {{ form.hidden_tag()}}
+        {{ form.hidden_tag() }}
         <p>
             {{ form.tweet.label }}<br>
-            {{ form.tweet(cols=50, row=4) }}<br>
+            {{ form.tweet(cols=50, rows=4) }}<br> 
             {% for error in form.tweet.errors %}
             <span style="color: red">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p>{{ form.submit()}}</p>
+        <p>{{ form.submit() }}</p>
     </form>
+
     {% include '_tweets.html' %}
 
     {% if prev_url %}
@@ -23,5 +29,46 @@
     <a href="{{ next_url }}">Next Page</a>
     {% endif %}
     
-{% endblock %}
+<script>
+    document.addEventListener('click', function(event) {
+        const btn = event.target.closest('.like-button');
+        if (!btn) return;
 
+        event.preventDefault();
+
+        const tweetId = btn.getAttribute('data-tweet-id');
+        const countSpan = document.getElementById(`like-count-${tweetId}`);
+        const csrfToken = document.querySelector('input[name="csrf_token"]').value;
+
+        console.log("正在發送請求，Tweet ID:", tweetId);
+
+        fetch(`/api/like/${tweetId}`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("後端回傳資料:", data); // <--- 檢查這裡的 status 到底是什麼字
+
+            if (data) {
+                // 1. 更新數字 (這行沒跑數字就不會動)
+                if (countSpan) {
+                    countSpan.innerText = data.like_count;
+                }
+
+                // 2. 切換顏色 (關鍵點！)
+                // 在你的 fetch .then(data => { ... }) 裡面
+                if (data.status === 'done') {
+                    btn.classList.add('is-liked');
+            }   else if (data.status === 'undone') {
+                btn.classList.remove('is-liked');
+                }
+            }
+        })
+        .catch(err => console.error('Fetch Error:', err));
+    });
+</script>
+{% endblock %}

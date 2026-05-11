@@ -14,6 +14,11 @@ followers = db.Table('followers',
     db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
 )
 
+tweet_likes = db.Table('tweet_likes',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('tweet_id', db.Integer, db.ForeignKey('tweet.id'), primary_key=True)
+)
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True, index=True)
@@ -30,6 +35,22 @@ class User(UserMixin, db.Model):
         secondaryjoin = (followers.c.followed_id == id),
         backref = db.backref('followers', lazy = 'dynamic'), lazy = 'dynamic'
     )
+    liked_tweets = db.relationship(
+        'Tweet', secondary=tweet_likes,
+        backref=db.backref('liked_by', lazy='dynamic'), lazy='dynamic'
+    )
+
+    def like(self, tweet):
+        if not self.has_liked(tweet):
+            self.liked_tweets.append(tweet)
+
+    def unlike(self, tweet):
+        if self.has_liked(tweet):
+            self.liked_tweets.remove(tweet)
+
+    def has_liked(self, tweet):
+        return self.liked_tweets.filter(
+            tweet_likes.c.tweet_id == tweet.id).count() > 0
 
     def  __repr__(self):
         return 'id={}, username={}, email={}, password_hash={}'.format(

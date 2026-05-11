@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, url_for, abort, current_app, flash
+from flask import render_template, redirect, request, url_for, abort, current_app, flash, jsonify
 from flask_login import login_user, current_user, logout_user, login_required
 from twittor.form import LoginForm, RegisterForm, EditProfileForm, TweetForm, PasswdResetRequestForm, PasswdResetForm
 from twittor.models import User, Tweet
@@ -33,7 +33,8 @@ def login():
         u = User.query.filter_by(username=form.username.data).first()
         if u is None or not u.check_password(form.password.data):
             print ('invalid username or password')
-            return redirect(url_for(login))
+            flash('invalid username or password')
+            return redirect(url_for('login'))
         login_user(u, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if next_page:
@@ -154,3 +155,24 @@ def password_reset(token):
     return render_template(
         'password_reset.html', title='Password Reset', form=form
     )
+
+@login_required
+def toggle_like(id):
+    tweet = Tweet.query.get_or_404(id)
+    
+    user = current_user 
+
+    if user.has_liked(tweet):
+        user.unlike(tweet)
+        db.session.commit()
+        return jsonify({
+            'status': 'undone', 
+            'like_count': tweet.liked_by.count()
+        })
+    else:
+        user.like(tweet)
+        db.session.commit()
+        return jsonify({
+            'status': 'done', 
+            'like_count': tweet.liked_by.count()
+        })

@@ -1,14 +1,22 @@
-
 <table>
-    {% for tweet in tweets %}
+    {% for tweet in tweets %}  
     <tr valign="top">
-        <td><td><img src="{{tweet.author.avatar(48) }}" alt=""></td></td>
+        <td><img src="{{ tweet.author.avatar(36) }}"></td>
         <td>
-            <a href="{{ url_for('profile', username=tweet.author.username) }}"><b>{{ tweet.author.username }}</b></a> 
+            <a href="{{ url_for('profile', username=tweet.author.username) }}">
+                <b>{{ tweet.author.username }}</b>
+            </a> 
             {{ tweet.create_time }}<br>
             {{ tweet.body }}
+            
+            <div style="margin-top: 5px;">
+                <button class="like-button {% if current_user.has_liked(tweet) %}is-liked{% endif %}" 
+                        data-tweet-id="{{ tweet.id }}">
+                    <span class="heart-icon">❤</span>
+                    <span id="like-count-{{ tweet.id }}">{{ tweet.liked_by.count() }}</span>
+                </button>
+            </div>
         </td>
     </tr>
-    {% endfor %} 
+    {% endfor %} <!-- 3. 結尾 -->
 </table>
-
