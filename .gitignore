@@ -19,3 +19,6 @@ __pycache__/
 *.db
 
 twittor/twittor.db
+
+# 忽略 Flask 實例資料夾
+instance/
