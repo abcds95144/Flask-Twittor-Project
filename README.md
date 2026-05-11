@@ -11,21 +11,21 @@
 
 基礎: Jinja2 Template / Bootstrap 5 
 
-動態: Vanilla JavaScript 
+動態: Vanilla JavaScript (Fetch API)
 
 開發工具: Git / Postman 
 
 ## ✨ 核心功能與技術亮點
-使用者驗證系統：實作登入、註冊功能，並透過 werkzeug.security 進行密碼雜湊加密。
+使用者驗證系統：實作登入、註冊功能，並透過 werkzeug.security 進行密碼雜湊加密；針對重置密碼功能導入JWT確保驗證時效性。
 
-資料庫關聯設計：設計 User 與 Tweet 之間的一對一關係，以及按讚與追蹤功能的多對多關係。
+資料庫關聯設計：設計User與Tweet的一對多關係，以及按讚與追蹤功能的多對多關係。
 
-非同步按讚機制：為了讓按讚功能更流暢，我嘗試用 Vanilla JS (Fetch API) 來做，這樣使用者按讚時頁面就不會整頁重整（原本整頁重整的體驗很卡）。
+非同步按讚機制：為了讓按讚功能更流暢，我嘗試用 Vanilla JS (Fetch API) 來做，實作非同步請求，避免傳統表單提交導致的頁面重整（原本整頁重整的體驗很卡）。
 
 ## 📈 未來演進規劃 
 Phase 1 (進行中)：目前使用 Bootstrap 完善介面，並優化後端 API 錯誤處理。
 
-Phase 2 (計畫)：將前端重構成 Vue.js，達成前後端完全分離。
+Phase 2 (計畫)：將前端重構成 Vue.js，達成前後端完全分離與 RESTful API 架構。
 
 Phase 3：部署至 AWS EC2，並加入 Redis 作為熱門貼文的快取層。
 
