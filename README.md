@@ -29,7 +29,7 @@
 2. **建立虛擬環境**: `python -m venv venv`
 3. **啟動環境**: `venv\Scripts\activate` (Windows)
 4. **安裝依賴**: `pip install -r requirements.txt`
-5. **啟動專案**: `flask run`****
+5. **啟動專案**: `flask run`
 
 安裝依賴：pip install -r requirements.txt
 
