@@ -3,11 +3,11 @@
 
 ## 技術規格 (Tech Stack)
 
-後端 (Core): Python / Flask / SQLAlchemy 
+後端 : Python / Flask / SQLAlchemy 
 
 資料庫: MySQL 
 
-前端 (UI/UX):
+前端 :
 
 基礎: Jinja2 Template / Bootstrap 5 
 
@@ -22,7 +22,7 @@
 
 非同步按讚機制：為了讓按讚功能更流暢，我嘗試用 Vanilla JS (Fetch API) 來做，這樣使用者按讚時頁面就不會整頁重整（原本整頁重整的體驗很卡）。
 
-## 📈 未來演進規劃 (Roadmap)
+## 📈 未來演進規劃 
 Phase 1 (進行中)：目前使用 Bootstrap 完善介面，並優化後端 API 錯誤處理。
 
 Phase 2 (計畫)：
@@ -34,7 +34,7 @@ Phase 2 (計畫)：
 Phase 3：部署至 AWS EC2，並加入 Redis 作為熱門貼文的快取層。
 
 ## ⚙️ 如何在本地執行
-git clone [你的專案網址]
+git clone []
 
 建立虛擬環境：python -m venv venv
 
