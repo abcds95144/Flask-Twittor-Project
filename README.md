@@ -1,7 +1,7 @@
-# 專案名稱 (例如：Twittor - Flask 社群平台實作)
-(一句話簡述)：這是一個基於 Flask 開發的微型社群平台，核心在於實踐 RESTful API 設計與資料庫關聯建模。
+# 專案名稱:Twittor - Flask 
+：這是一個基於 Flask 開發的微型社群平台，核心在於實踐 RESTful API 設計與資料庫關聯建模。
 
-## 技術規格 (Tech Stack)
+## 技術規格 
 
 後端 : Python / Flask / SQLAlchemy 
 
