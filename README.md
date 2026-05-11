@@ -18,7 +18,7 @@
 ## ✨ 核心功能與技術亮點
 使用者驗證系統：實作登入、註冊功能，並透過 werkzeug.security 進行密碼雜湊加密。
 
-資料庫關聯設計：設計 User 與 Tweet 之間的 One-to-Many 關係，以及按讚與追蹤功能的 Many-to-Many 關係。
+資料庫關聯設計：設計 User 與 Tweet 之間的一對一關係，以及按讚與追蹤功能的多對多關係。
 
 非同步按讚機制：為了讓按讚功能更流暢，我嘗試用 Vanilla JS (Fetch API) 來做，這樣使用者按讚時頁面就不會整頁重整（原本整頁重整的體驗很卡）。
 
@@ -38,7 +38,7 @@ git clone []
 
 建立虛擬環境：python -m venv venv
 
-啟動環境：venv\Scripts\activate (Windows)
+啟動環境：venv\Scripts\activate
 
 安裝依賴：pip install -r requirements.txt
 
